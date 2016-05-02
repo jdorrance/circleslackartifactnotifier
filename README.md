@@ -1,0 +1,1 @@
+This will list out artifacts from the configured CircleCI build , and output to Stash
