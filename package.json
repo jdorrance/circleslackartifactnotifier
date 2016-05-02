@@ -20,7 +20,7 @@
     "notifications"
   ],
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "async": "^2.0.0-rc.3",
     "lodash": "^4.11.1",
     "node-slack": "0.0.7",
