@@ -1,12 +1,12 @@
 {
   "name": "circleslackaemnotifier",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Publishes a list of artifacts to the slack room",
   "author": "John Dorrance <jdorrance@mavendc.com>",
   "main": "index.js",
   "readme": "README.md",
   "scripts": {
-    "start": "node index.js",
+    "prepublish": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,5 +25,9 @@
     "lodash": "^4.11.1",
     "node-slack": "0.0.7",
     "request": "^2.72.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-coffee": "^2.3.2"
   }
 }
