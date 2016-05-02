@@ -63,6 +63,6 @@ server = http.createServer(app)
 server.on 'error', (err) ->
   debug 'server error', err
   return
-server.listen 80, ->
-  debug 'Respoke webhook server is listening on port', 80
+server.listen process.env.PORT or 3009, ->
+  debug 'Respoke webhook server is listening on port', process.env.PORT or 3009
   return
