@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "description": "Publishes a list of artifacts to the slack room",
   "author": "John Dorrance <jdorrance@mavendc.com>",
-  "main": "index.js",
+  "main": "server.js",
   "readme": "README.md",
   "scripts": {
     "start": "node server.js",
