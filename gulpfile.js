@@ -7,7 +7,7 @@ compileCoffee = function(coffeeStream , compiler) {
 };
 
 gulp.task("coffee", function(){
-  return compileCoffee(gulp.src('src/index.coffee'), coffee);
+  return compileCoffee(gulp.src('src/*.coffee'), coffee);
 });
 
 gulp.task("default", function() {

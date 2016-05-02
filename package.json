@@ -6,6 +6,7 @@
   "main": "index.js",
   "readme": "README.md",
   "scripts": {
+    "start": "node server.js",
     "prepublish": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,6 +23,9 @@
   "license": "MIT",
   "dependencies": {
     "async": "^2.0.0-rc.3",
+    "body-parser": "^1.15.0",
+    "connect": "^3.4.1",
+    "debug": "^2.2.0",
     "lodash": "^4.11.1",
     "node-slack": "0.0.7",
     "request": "^2.72.0"
