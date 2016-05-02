@@ -80,6 +80,6 @@ server.on('error', function(err) {
   debug('server error', err);
 });
 
-server.listen(3009, function() {
-  debug('Respoke webhook server is listening on port', 3009);
+server.listen(80, function() {
+  debug('Respoke webhook server is listening on port', 80);
 });
