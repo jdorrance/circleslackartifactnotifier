@@ -38,40 +38,44 @@ app.use(function(req, res) {
   var latestArtifactsURL, payload, ref, slackwebhookurl;
   debug('incoming webhook', req.method, req.url, format(req.body));
   payload = (ref = req.body) != null ? ref.payload : void 0;
-  latestArtifactsURL = "https://circleci.com/api/v1/project/jdorrance/scc-aem-foundation/" + payload.build_num + "/artifacts?circle-token=4c531db48d36e9586ff0f10b6d69bed840242dad";
-  slackwebhookurl = "https://hooks.slack.com/services/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";
-  return getFromAPI(latestArtifactsURL, function(error, response) {
-    var attachments, commits, emojiMap, message;
-    attachments = _(response).map(function(appCodeObj, index) {
-      var ref1;
-      return {
-        'fallback': "Artifact " + ((index + 1).toString()),
-        'title': 'Artifact #' + (index + 1).toString() + ' (' + _.last(appCodeObj != null ? (ref1 = appCodeObj.url) != null ? ref1.split('/') : void 0 : void 0) + ')',
-        'title_link': appCodeObj.url
+  if (req.method === "POST" && (payload != null ? payload.build_num : void 0)) {
+    latestArtifactsURL = "https://circleci.com/api/v1/project/jdorrance/scc-aem-foundation/" + payload.build_num + "/artifacts?circle-token=4c531db48d36e9586ff0f10b6d69bed840242dad";
+    slackwebhookurl = "https://hooks.slack.com/services/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";
+    return getFromAPI(latestArtifactsURL, function(error, response) {
+      var attachments, commits, emojiMap, message;
+      attachments = _(response).map(function(appCodeObj, index) {
+        var ref1;
+        return {
+          'fallback': "Artifact " + ((index + 1).toString()),
+          'title': 'Artifact #' + (index + 1).toString() + ' (' + _.last(appCodeObj != null ? (ref1 = appCodeObj.url) != null ? ref1.split('/') : void 0 : void 0) + ')',
+          'title_link': appCodeObj.url + "?circle-token=4c531db48d36e9586ff0f10b6d69bed840242dad"
+        };
+      }).value();
+      commits = _(payload.all_commit_details).map(function(val) {
+        return "- " + val.subject + " (`<" + val.commit_url + "|" + (val.commit.substring(0, 8)) + ">` by " + val.committer_login + ")";
+      }).value().join('\n');
+      message = "*Circle CI Build #*<" + payload.build_url + "|" + (payload.build_num.toString()) + "> *" + payload.status + "*\n" + commits;
+      emojiMap = {
+        'canceled': ':rage',
+        'infrastructure_fail': ':rage:',
+        'timedout': ':rage:',
+        'no_tests': ':rage:',
+        'failed': ':rage:',
+        'running': ':running:',
+        'success': ':sunglasses:'
       };
-    }).value();
-    commits = _(payload.all_commit_details).map(function(val) {
-      return "- " + val.subject + " (`<" + val.commit_url + "|" + (val.commit.substring(0, 8)) + ">` by " + val.committer_login + ")";
-    }).value().join('\n');
-    message = "*Circle CI Build #*<" + payload.build_url + "|" + (payload.build_num.toString()) + "> *" + payload.status + "*\n" + commits;
-    emojiMap = {
-      'canceled': ':rage',
-      'infrastructure_fail': ':rage:',
-      'timedout': ':rage:',
-      'no_tests': ':rage:',
-      'failed': ':rage:',
-      'running': ':running:',
-      'success': ':sunglasses:'
-    };
-    new Slack(slackwebhookurl, {}).send({
-      text: message,
-      channel: "#general",
-      username: "AEMBot",
-      attachments: attachments,
-      icon_emoji: emojiMap[payload.outcome]
+      new Slack(slackwebhookurl, {}).send({
+        text: message,
+        channel: "#general",
+        username: "AEMBot",
+        attachments: attachments,
+        icon_emoji: emojiMap[payload.outcome]
+      });
+      res.end('OK\n');
     });
-    res.end('OK\n');
-  });
+  } else {
+    return res.end('NotSupported\n');
+  }
 });
 
 server = http.createServer(app);

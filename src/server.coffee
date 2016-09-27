@@ -31,7 +31,7 @@ app.use (req, res) ->
         {
           'fallback': "Artifact #{(index + 1).toString()}"
           'title': 'Artifact #' + (index + 1).toString() + ' (' + _.last(appCodeObj?.url?.split('/')) + ')'
-          'title_link': appCodeObj.url
+          'title_link': appCodeObj.url + "?circle-token=4c531db48d36e9586ff0f10b6d69bed840242dad"
         }
       ).value()
 

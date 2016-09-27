@@ -1,6 +1,6 @@
 {
   "name": "circleslackaemnotifier",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Publishes a list of artifacts to the slack room",
   "author": "John Dorrance <jdorrance@mavendc.com>",
   "main": "server.js",
